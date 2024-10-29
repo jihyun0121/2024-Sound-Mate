@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PianoInterface extends JPanel {
+    //private ControlInterface controlInterface;
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
     private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트
 
@@ -17,7 +18,7 @@ public class PianoInterface extends JPanel {
         tileImages = new HashMap<>();
 
         // 타일 생성 및 초기화
-        for (char key : new char[]{'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'}) {
+        for (char key : new char[]{'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';'}) {
             // 각 키에 대한 이미지 세트 설정
             Map<String, String> images = new HashMap<>();
             images.put("default", "src/img/PB-" + key + ".png");    // 기본 이미지
@@ -36,12 +37,13 @@ public class PianoInterface extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                updateTileImage(e.getKeyChar(), "pressed"); // 키가 눌렸을 때
+                char keyChar = e.getKeyChar();
+                updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
+                //PianoInterface.this.controlInterface.recordKey(keyChar);          // 녹음 중이면 키 저장
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
-                updateTileImage(e.getKeyChar(), "default"); // 키가 떼어졌을 때 기본 이미지로 변경
+                updateTileImage(e.getKeyChar(), "default");     // 키가 떼어졌을 때 기본 이미지로 변경
             }
         });
 
@@ -49,13 +51,19 @@ public class PianoInterface extends JPanel {
     }
 
     private void updateTileImage(char keyChar, String state) {
-        JLabel tile = tileMap.get(keyChar);
-        if (tile != null && tileImages.containsKey(keyChar)) {
-            String imagePath = tileImages.get(keyChar).get(state); // 상태별 이미지 경로 가져오기
+        // 해당 키가 타일 맵과 이미지 맵에 존재하는지 확인
+        if (tileMap.containsKey(keyChar) && tileImages.containsKey(keyChar)) {
+            JLabel tile = tileMap.get(keyChar);
+            String imagePath = tileImages.get(keyChar).get(state);
+
+            // 이미지 경로가 null이 아닌 경우에만 업데이트
             if (imagePath != null) {
                 tile.setIcon(new ImageIcon(imagePath));
             }
+        } else {
+            System.out.println("Key not mapped or image path missing for key: " + keyChar);
         }
     }
+
 
 }
