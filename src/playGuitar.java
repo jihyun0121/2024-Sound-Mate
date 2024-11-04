@@ -24,13 +24,18 @@ public class playGuitar extends JFrame {
         this.setLayout(new BorderLayout());
 
 
+        // 컨트롤러 패널
+        src.menuBar menuBar = new menuBar();
+        this.add(menuBar, BorderLayout.NORTH);
+
+
         // 악보 패널
         sheetMusicPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 ImageIcon sheetMusic = new ImageIcon("src/img/오선지.png");
-                g.drawImage(sheetMusic.getImage(), 0, 100, this);
+                g.drawImage(sheetMusic.getImage(), 0, 20, this);
             }
         };
         sheetMusicPanel.setPreferredSize(new Dimension(1191, 218));
@@ -38,10 +43,10 @@ public class playGuitar extends JFrame {
 
 
         // 기타 자판 패널
-        GuitarInterface guitarInterface = new GuitarInterface();
-        this.add(guitarInterface, BorderLayout.SOUTH);
+        Guitar guitar = new Guitar();
+        this.add(guitar, BorderLayout.SOUTH);
 
         // 키보드 포커스를 GuitarInterface에 설정
-        guitarInterface.requestFocusInWindow();
+        guitar.requestFocusInWindow();
     }
 }

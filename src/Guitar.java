@@ -6,18 +6,19 @@ import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GuitarInterface extends JPanel {
+public class Guitar extends JPanel {
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
     private Map<Character, Map<String, String>> tileImages;     // 타일별 이미지 세트 <타일위치, 이미지경로, 상태>
 
-    public GuitarInterface() {
-        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    public Guitar() {
+        setLayout(new GridLayout(1, 10));
+        //setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
         tileMap = new HashMap<>();
         tileImages = new HashMap<>();
 
         // 타일 생성 및 초기화
-        for (char key : new char[]{'e', 'a', 'd', 'g', 'c', 'f', 'b', 'k'}) {
+        for (char key : new char[]{'1', 'e', 'a', 'd', 'g', 'c', 'f', 'b', 'k', '2'}) {
             // 각 키에 대한 이미지 세트 설정
             Map<String, String> images = new HashMap<>();
             images.put("default", "src/img/GB-" + key + ".png");    // 기본 이미지
