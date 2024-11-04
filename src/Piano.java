@@ -6,12 +6,12 @@ import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PianoInterface extends JPanel {
+public class Piano extends JPanel {
     //private ControlInterface controlInterface;
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
     private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트
 
-    public PianoInterface() {
+    public Piano() {
         setLayout(new GridLayout(1, 10));
 
         tileMap = new HashMap<>();
@@ -23,14 +23,14 @@ public class PianoInterface extends JPanel {
             Map<String, String> images = new HashMap<>();
             images.put("default", "src/img/PB-" + key + ".png");    // 기본 이미지
             images.put("pressed", "src/img/PC-" + key + ".png");    // 눌렸을 때 이미지
-            tileImages.put(key, images);    // 각 키에 대해 이미지 세트 매핑
+            tileImages.put(key, images);    // 각 키에 대한 이미지 세트
 
             // 타일 생성 및 기본 이미지 설정
             JLabel tile = new JLabel(new ImageIcon(images.get("default")));     // 각 키의 기본 이미지 설정
             tile.setHorizontalAlignment(JLabel.CENTER);
             tile.setVerticalAlignment(JLabel.CENTER);
-            add(tile);      // 패널에 타일 추가
-            tileMap.put(key, tile);     // Map에 키와 타일 매핑
+            add(tile);                  // 패널에 타일 추가
+            tileMap.put(key, tile);     // Map에 키와 타일
         }
 
         // 키보드 리스너 설정
