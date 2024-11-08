@@ -6,12 +6,59 @@ import java.awt.*;
 public class menuBar extends JPanel {
     //private List<JButton> buttons = new ArrayList<>();
     Color background = new Color(0x002F47);
+    private JButton homeButton;
+    ImageIcon homeImg = new ImageIcon("src/img/home.png");
+    ImageIcon pressHomeImg = new ImageIcon("src/img/pre-home.png");
+    private JButton recordButton;
+    ImageIcon recordImg = new ImageIcon("src/img/record.png");
+    private JButton stopButton;
+    ImageIcon stopImg = new ImageIcon("src/img/stop.png");
+    private JButton menuButton;
+    ImageIcon menuImg = new ImageIcon("src/img/menu.png");
+    ImageIcon pressmenuImg = new ImageIcon("src/img/pre-menu.png");
+
 
     public menuBar() {
-        setLayout(new FlowLayout());
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setPreferredSize(new Dimension(400, 100));
         setBackground(background); // 남색 배경 설정
+
+        homeButton = new JButton(homeImg);
+        customizeButton(homeButton, pressHomeImg);
+
+        menuButton = new JButton(menuImg);
+        customizeButton(menuButton, pressmenuImg);
+
+        stopButton = new JButton(stopImg);
+        customizeButton(stopButton, null);
+
+        recordButton = new JButton(recordImg);
+        customizeButton(recordButton, null);
+
+        add(Box.createHorizontalStrut(20)); // 버튼 간격
+        add(homeButton);
+        add(Box.createHorizontalGlue());
+
+        // 버튼 추가 및 간격 설정
+        add(menuButton);
+        add(Box.createHorizontalStrut(-35));
+        add(stopButton);
+        add(recordButton);
+        add(Box.createHorizontalStrut(150));
+
+        // 오른쪽에 여백 추가
+        add(Box.createHorizontalGlue());
     }
+
+    private void customizeButton(JButton button, ImageIcon rolloverIcon) {
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        if (rolloverIcon != null) {
+            button.setRolloverIcon(rolloverIcon);
+        }
+    }
+
 //    private JButton recordButton;
 //    private boolean isRecording;
 //    private List<Character> recordedKeys; // 녹음된 키들을 저장할 리스트
