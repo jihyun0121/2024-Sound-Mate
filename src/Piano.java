@@ -3,8 +3,11 @@ package src;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.sound.sampled.*;
 
 public class Piano extends JPanel {
     //private ControlInterface controlInterface;
@@ -39,6 +42,7 @@ public class Piano extends JPanel {
             public void keyPressed(KeyEvent e) {
                 char keyChar = e.getKeyChar();
                 updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
+                playSound(keyChar); // 피아노 소리 재생
                 //PianoInterface.this.controlInterface.recordKey(keyChar);          // 녹음 중이면 키 저장
             }
             @Override
@@ -62,6 +66,20 @@ public class Piano extends JPanel {
             }
         } else {
             System.out.println("Key not mapped or image path missing for key: " + keyChar);
+        }
+    }
+
+    private void playSound(char keyChar) {
+        String soundPath = "src/sounds/" + keyChar + ".wav";
+        try {
+            File soundFile = new File(soundPath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.out.println("Error playing sound for key: " + keyChar);
+            e.printStackTrace();
         }
     }
 
