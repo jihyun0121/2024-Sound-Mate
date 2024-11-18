@@ -19,15 +19,15 @@ public class playPiano extends JFrame
     public playPiano() {
         setTitle("Sound Mate - Play Piano");         // super("Sound Mate"); 같은 기능
         this.setSize(1280,720);
+        this.getContentPane().setBackground(Color.white);
         this.setLocationRelativeTo(null);       // 창을 가운데에 띄움
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
-
-        // 컨트롤 패널
-//        ControlInterface controlInterface = new ControlInterface();
-//        this.add(controlInterface, BorderLayout.NORTH);
+        // 컨트롤러 패널
+        src.menuBar menuBar = new menuBar();
+        this.add(menuBar, BorderLayout.NORTH);
 
         // 악보 패널
         sheetMusicPanel = new JPanel() {
@@ -35,10 +35,11 @@ public class playPiano extends JFrame
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 ImageIcon sheetMusic = new ImageIcon("src/img/오선지.png");
-                g.drawImage(sheetMusic.getImage(), 0, 100, this);
+                g.drawImage(sheetMusic.getImage(), 0, 0, this);
             }
         };
         sheetMusicPanel.setPreferredSize(new Dimension(1191, 218));
+        sheetMusicPanel.setBackground(Color.WHITE);
         add(sheetMusicPanel, BorderLayout.EAST);
 
 
