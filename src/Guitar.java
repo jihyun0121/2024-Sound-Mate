@@ -12,7 +12,7 @@ public class Guitar extends JPanel {
 
     public Guitar() {
         setLayout(new GridLayout(1, 10));
-        //setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        setBackground(Color.WHITE);
 
         tileMap = new HashMap<>();
         tileImages = new HashMap<>();
@@ -29,6 +29,9 @@ public class Guitar extends JPanel {
             JLabel tile = new JLabel(new ImageIcon(images.get("default")));     // 각 키의 기본 이미지 설정
             tile.setHorizontalAlignment(JLabel.CENTER);
             tile.setVerticalAlignment(JLabel.CENTER);
+
+            tile.setBackground(Color.WHITE);
+
             add(tile);      // 패널에 타일 추가
             tileMap.put(key, tile);     // Map에 키와 타일 매핑
         }

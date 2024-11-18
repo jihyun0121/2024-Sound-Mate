@@ -34,10 +34,11 @@ public class playDrum extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 ImageIcon sheetMusic = new ImageIcon("src/img/오선지.png");
-                g.drawImage(sheetMusic.getImage(), 0, 20, this);
+                g.drawImage(sheetMusic.getImage(), 0, 0, this);
             }
         };
         sheetMusicPanel.setPreferredSize(new Dimension(1191, 218));
+        sheetMusicPanel.setBackground(Color.WHITE);
         add(sheetMusicPanel, BorderLayout.EAST);
 
 

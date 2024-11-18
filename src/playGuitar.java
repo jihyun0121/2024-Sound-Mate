@@ -18,6 +18,7 @@ public class playGuitar extends JFrame {
     public playGuitar() {
         setTitle("Sound Mate - Play Guitar");         // super("Sound Mate"); 같은 기능
         this.setSize(1280, 720);
+        this.getContentPane().setBackground(Color.white);
         this.setLocationRelativeTo(null);       // 창을 가운데에 띄움
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -35,10 +36,11 @@ public class playGuitar extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 ImageIcon sheetMusic = new ImageIcon("src/img/오선지.png");
-                g.drawImage(sheetMusic.getImage(), 0, 20, this);
+                g.drawImage(sheetMusic.getImage(), 0, 0, this);
             }
         };
         sheetMusicPanel.setPreferredSize(new Dimension(1191, 218));
+        sheetMusicPanel.setBackground(Color.WHITE);
         add(sheetMusicPanel, BorderLayout.EAST);
 
 
