@@ -2,27 +2,29 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Guitar extends JPanel {
+public class Drum extends JPanel {
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
-    private Map<Character, Map<String, String>> tileImages;     // 타일별 이미지 세트 <타일위치, 이미지경로, 상태>
+    private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트 <타일위치, 이미지경로, 상태>
 
-    public Guitar() {
-        setLayout(new GridLayout(1, 10));
+    public Drum() {
+        //setLayout(new GridLayout(1, 10));
+        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         setBackground(Color.WHITE);
 
         tileMap = new HashMap<>();
         tileImages = new HashMap<>();
 
         // 타일 생성 및 초기화
-        for (char key : new char[]{'1', 'e', 'a', 'd', 'g', 'c', 'f', 'b', 'k', '2'}) {
+        for (char key : new char[]{'a', 'e', 'g', ' ', 'u', 'i', 'o'}) {
             // 각 키에 대한 이미지 세트 설정
             Map<String, String> images = new HashMap<>();
-            images.put("default", "src/img/GB-" + key + ".png");    // 기본 이미지
-            images.put("pressed", "src/img/GC-" + key + ".png");    // 눌렸을 때 이미지
+            images.put("default", "src/img/DB-" + key + ".png");    // 기본 이미지
+            images.put("pressed", "src/img/DC-" + key + ".png");    // 눌렸을 때 이미지
             tileImages.put(key, images);    // 각 키에 대해 이미지 세트 매핑
 
             // 타일 생성 및 기본 이미지 설정
@@ -67,6 +69,4 @@ public class Guitar extends JPanel {
             System.out.println("Key not mapped or image path missing for key: " + keyChar);
         }
     }
-
-
 }
