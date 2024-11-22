@@ -16,6 +16,7 @@ public class Piano extends JPanel {
 
     public Piano() {
         setLayout(new GridLayout(1, 10));
+        setBackground(Color.WHITE);
 
         tileMap = new HashMap<>();
         tileImages = new HashMap<>();
@@ -32,6 +33,9 @@ public class Piano extends JPanel {
             JLabel tile = new JLabel(new ImageIcon(images.get("default")));     // 각 키의 기본 이미지 설정
             tile.setHorizontalAlignment(JLabel.CENTER);
             tile.setVerticalAlignment(JLabel.CENTER);
+
+            tile.setBackground(Color.WHITE);
+
             add(tile);                  // 패널에 타일 추가
             tileMap.put(key, tile);     // Map에 키와 타일
         }
@@ -70,7 +74,7 @@ public class Piano extends JPanel {
     }
 
     private void playSound(char keyChar) {
-        String soundPath = "src/sounds/" + keyChar + ".wav";
+        String soundPath = "src/sound/piano/" + keyChar + ".wav";
         try {
             File soundFile = new File(soundPath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
