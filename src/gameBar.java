@@ -1,0 +1,48 @@
+package src;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class gameBar extends JPanel {
+    //private List<JButton> buttons = new ArrayList<>();
+    Color background = new Color(0x002F47);
+    private JButton homeButton;
+    ImageIcon homeImg = new ImageIcon("src/img/home.png");
+    ImageIcon pressHomeImg = new ImageIcon("src/img/pre-home.png");
+    private JButton stopButton;
+    ImageIcon stopImg = new ImageIcon("src/img/stop.png");
+
+
+    public gameBar() {
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setPreferredSize(new Dimension(400, 70));
+        setBackground(background); // 남색 배경 설정
+
+        homeButton = new JButton(homeImg);
+        customizeButton(homeButton, pressHomeImg);
+
+        stopButton = new JButton(stopImg);
+        customizeButton(stopButton, null);
+
+        add(Box.createHorizontalStrut(20)); // 버튼 간격
+        add(homeButton);
+        add(Box.createHorizontalGlue());
+
+        // 버튼 추가 및 간격 설정
+        add(Box.createHorizontalStrut(1060)); // 버튼 간격
+        add(stopButton);
+
+        // 오른쪽에 여백 추가
+        add(Box.createHorizontalGlue());
+    }
+
+    private void customizeButton(JButton button, ImageIcon rolloverIcon) {
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        if (rolloverIcon != null) {
+            button.setRolloverIcon(rolloverIcon);
+        }
+    }
+}
+
