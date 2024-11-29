@@ -42,6 +42,13 @@ public class Login extends JFrame {
         JButton btn = new JButton("로그인");     // 로그인 버튼
         btn.setBounds(600, 320, 150, 30);
 
+        JButton btnSignup = new JButton("회원가입하기");
+        btnSignup.setBounds(600, 350, 150, 30);
+        btnSignup.setBorderPainted(false);
+        btnSignup.setContentAreaFilled(false);
+        btnSignup.setFocusPainted(false);
+
+
         // 버튼 클릭 이벤트
         btn.addActionListener(new ActionListener() {
             @Override
@@ -57,10 +64,19 @@ public class Login extends JFrame {
             }
         });
 
+        // 회원가입 버튼 클릭 이벤트 (Signup 페이지로 이동)
+        btnSignup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                f.dispose(); // 현재 로그인 창 닫기
+                new Signup(); // 회원가입 창 열기
+            }
+        });
+
         // 패널에 컴포넌트 추가
         panel.add(l1);  panel.add(id);
         panel.add(l2);  panel.add(pw);
-        panel.add(btn);
+        panel.add(btn); panel.add(btnSignup);
 
         // 프레임에 패널 추가
         f.add(panel);

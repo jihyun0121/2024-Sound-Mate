@@ -9,12 +9,12 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class Register extends JFrame {
+public class Signup extends JFrame {
     public static void main(String[] args) {
-        new Register();
+        new Signup();
     }
 
-    public Register() {
+    public Signup() {
         JFrame f = new JFrame("Sound Mate - Register");
         f.setSize(1280, 720);
         f.getContentPane().setBackground(Color.white);
@@ -55,6 +55,8 @@ public class Register extends JFrame {
                 if (password.equals(confirmPassword)) {
                     if (registerUser(username, password)) {
                         JOptionPane.showMessageDialog(f, "회원가입 성공!");
+                        f.dispose(); // 회원가입 창 닫기
+                        new Login(); // 로그인 창 열기
                     } else {
                         JOptionPane.showMessageDialog(f, "회원가입 실패. 아이디가 이미 존재합니다.");
                     }
