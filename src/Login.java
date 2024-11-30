@@ -3,6 +3,7 @@ package src;
 import src.db.DatabaseConnection;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -15,20 +16,38 @@ public class Login extends JFrame {
     }
 
     public Login() {
-        JFrame f = new JFrame("로그인 창");
+        // 프레임 설정
+        JFrame f = new JFrame("Sound Mate - Login");
+        f.setSize(1280, 720);
+        f.getContentPane().setBackground(Color.white);
+        f.setLocationRelativeTo(null);       // 창을 화면 가운데에 위치
+        f.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        // 패널 설정
+        JPanel panel = new JPanel();
+        panel.setLayout(null);  // 레이아웃을 null로 설정
+        panel.setBackground(Color.white);
+
+        // 컴포넌트 생성 및 위치 설정
         JLabel l1 = new JLabel("아이디 : ");    // 아이디 라벨
-        l1.setBounds(20,20,80,30);
-        JTextField id = new JTextField();         // 아이디 입력창
-        id.setBounds(100,20,100,30);
+        l1.setBounds(520, 230, 80, 30);
+        JTextField id = new JTextField();       // 아이디 입력창
+        id.setBounds(600, 230, 150, 30);
 
-        JLabel l2 = new JLabel("비밀번호 : ");      // 비밀번호 라벨
-        l2.setBounds(20,75,80,30);
+        JLabel l2 = new JLabel("비밀번호 : ");   // 비밀번호 라벨
+        l2.setBounds(520, 270, 80, 30);
         JPasswordField pw = new JPasswordField(); // 비밀번호 입력창
-        pw.setBounds(100,75,100,30);
+        pw.setBounds(600, 270, 150, 30);
 
-        JButton btn = new JButton("로그인");
-        btn.setBounds(100,120,80,30);
+        JButton btn = new JButton("로그인");     // 로그인 버튼
+        btn.setBounds(600, 320, 150, 30);
+
+        JButton btnSignup = new JButton("회원가입하기");
+        btnSignup.setBounds(600, 350, 150, 30);
+        btnSignup.setBorderPainted(false);
+        btnSignup.setContentAreaFilled(false);
+        btnSignup.setFocusPainted(false);
+
 
         // 버튼 클릭 이벤트
         btn.addActionListener(new ActionListener() {
@@ -45,12 +64,22 @@ public class Login extends JFrame {
             }
         });
 
-        f.add(l1);  f.add(id);
-        f.add(l2);  f.add(pw);  f.add(btn);
-        f.setSize(1280,720);
-        f.setLayout(null);
-        f.setLocationRelativeTo(null);       // 창을 가운데에 띄움
-        f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // 회원가입 버튼 클릭 이벤트 (Signup 페이지로 이동)
+        btnSignup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                f.dispose(); // 현재 로그인 창 닫기
+                new Signup(); // 회원가입 창 열기
+            }
+        });
+
+        // 패널에 컴포넌트 추가
+        panel.add(l1);  panel.add(id);
+        panel.add(l2);  panel.add(pw);
+        panel.add(btn); panel.add(btnSignup);
+
+        // 프레임에 패널 추가
+        f.add(panel);
         f.setVisible(true);
     }
 
