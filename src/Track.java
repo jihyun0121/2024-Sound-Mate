@@ -3,10 +3,12 @@ package src;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Track extends JPanel {
     private List<Note> notes;
+    private long startTime;
 
     public Track() {
         notes = new ArrayList<>();
@@ -14,27 +16,47 @@ public class Track extends JPanel {
         setBackground(Color.BLACK);
     }
 
-    public void addNote(int xPosition) {
-        Note note = new Note(xPosition);
+    public void addNote(Note note) {
         notes.add(note);
         this.add(note);
     }
 
     public void moveNotes() {
-        for (Note note : notes) {
+        Iterator<Note> iterator = notes.iterator();
+        while (iterator.hasNext()) {
+            Note note = iterator.next();
             if (note.isActive()) {
-                note.moveDown();
+                note.moveDown(5);
                 note.repaint();
+            } else {
+                this.remove(note);
+                iterator.remove();
             }
         }
-        notes.removeIf(note -> !note.isActive());
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (Note note : notes) {
-            note.paint(g);
+            note.paintComponent(g);
         }
+    }
+
+    public void generateNotes(List<Note> noteTimingData) {
+        new Timer(10, e -> {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            for (Note note : noteTimingData) {
+                if (note.getTime() <= elapsedTime) {
+                    addNote(note);
+                }
+            }
+            moveNotes();
+            repaint();
+        }).start();
+    }
+
+    public void startGame() {
+        startTime = System.currentTimeMillis();
     }
 }

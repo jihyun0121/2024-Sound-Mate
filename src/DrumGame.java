@@ -2,42 +2,76 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.Map;
 
-public class DrumGame extends JFrame
-{
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DrumGame().setVisible(true);
-            }
-        });
-    }
+public class DrumGame extends JFrame {
+    private String musicTitle;
+    private Track track;
 
-    private JPanel sheetMusicPanel;
+    public DrumGame(Music music, Map<Integer, Character> keyMapping) {
+        this.musicTitle = music.getTitle();
 
-    public DrumGame() {
-        setTitle("Sound Mate - Game_Drum");         // super("Sound Mate"); 같은 기능
+        setTitle("Drum Game - " + musicTitle);
         this.setSize(1280, 720);
         this.getContentPane().setBackground(Color.white);
-        this.setLocationRelativeTo(null);       // 창을 가운데에 띄움
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setVisible(true);
         this.setLayout(new BorderLayout());
 
-        // 컨트롤러 패널
+        // 노트 트랙 패널
+        track = new Track();
+        track.setBackground(Color.white); // 배경 색 설정
+        add(track, BorderLayout.CENTER);
+
+        // 상단 게임바 패널
         gameBar gameBar = new gameBar();
-        this.add(gameBar, BorderLayout.NORTH);
+        add(gameBar, BorderLayout.NORTH);
 
-        // 피아노 키보드 패널
+        // 하단 피아노 키보드 패널
         Drum drum = new Drum();
-        //drumInterface drumInterface = new drumInterface(controlInterface);
-        this.add(drum, BorderLayout.SOUTH);
+        drum.setBackground(Color.white); // 배경 색 설정
+        add(drum, BorderLayout.SOUTH);
 
-        // 키보드 포커스를 drumInterface에 설정
+        // 텍스트 파일에서 노트 데이터 로드
+        String noteFilePath = music.getNoteFilePath();
+        List<Note> noteTimingData = BeatLoader.loadNotes(noteFilePath, keyMapping);
+        track.generateNotes(noteTimingData);
+
+        // 키보드 포커스 설정
         drum.requestFocusInWindow();
 
+        // 게임 시작
+        track.startGame();
 
+        setVisible(true);
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Music defaultMusic = new Music(
+                    "Default Song",
+                    "src/sound/sing/default.wav",
+                    "easy",
+                    "src/img/default_image.png",
+                    "src/rhythm/default_notes.txt"
+            );
+
+            // 피아노 키 매핑
+            Map<Integer, Character> drumKeys = Map.of(
+                    100, 'a',
+                    200, 's',
+                    300, 'd',
+                    400, 'f',
+                    500, 'g',
+                    600, 'h',
+                    700, 'j',
+                    800, 'k',
+                    900, 'l',
+                    1000, ';'
+            );
+
+            new DrumGame(defaultMusic, drumKeys).setVisible(true);
+        });
+    }
 }
