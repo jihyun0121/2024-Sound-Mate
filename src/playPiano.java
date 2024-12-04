@@ -45,7 +45,6 @@ public class playPiano extends JFrame
 
         // 피아노 키보드 패널
         Piano piano = new Piano();
-        //PianoInterface pianoInterface = new PianoInterface(controlInterface);
         this.add(piano, BorderLayout.SOUTH);
 
         // 키보드 포커스를 PianoInterface에 설정
