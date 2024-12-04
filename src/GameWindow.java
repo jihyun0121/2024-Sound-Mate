@@ -2,39 +2,145 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class GameWindow extends JFrame {
+
+    private JLabel songTitleLabel; // 노래 제목 레이블
+    private JLabel songImageLabel; // 노래 이미지 레이블
+    private JLabel levelLabel; // 레벨 레이블
+    private JPanel instrumentPanel; // 악기 선택 패널
+    private JButton leftArrowButton, rightArrowButton; // 화살표 버튼
+    private MusicTrack musicTrack;
+    private int currentSongIndex = 0; // 현재 선택된 곡 인덱스
 
     public GameWindow() {
         setTitle("Rhythm Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        Container contentPane = getContentPane();
-        contentPane.setLayout(new FlowLayout());
-
-        // 곡 버튼 추가
-        JButton btnMusic1 = new JButton("반짝반짝 작은 별");
-        JButton btnMusic2 = new JButton("여수 밤바다 - 버스커 버스커");
-        JButton btnMusic3 = new JButton("Welcome To The Show - Day6");
-
-        // 버튼 이벤트 추가
-        btnMusic1.addActionListener(e -> startGame(new Music("Twinkle Twinkle Little Star", "sound/sing/WelcomToTheShow", "easy")));
-        btnMusic2.addActionListener(e -> startGame(new Music("Yeosu Night Sea - Busker Busker", "sound/sing/WelcomToTheShow", "nomal")));
-        btnMusic3.addActionListener(e -> startGame(new Music("Welcome To The Show - Day6", "sound/sing/WelcomToTheShow", "hard")));
-
-        // 버튼을 패널에 추가
-        contentPane.add(btnMusic1);
-        contentPane.add(btnMusic2);
-        contentPane.add(btnMusic3);
-
         setSize(1280, 720);
-        setLocationRelativeTo(null); // 창을 화면 가운데 배치
+        setLocationRelativeTo(null); // 화면 중앙에 배치
+        setLayout(new BorderLayout());
+
+        // 음악 트랙 리스트
+        musicTrack = new MusicTrack();
+
+        // 노래 제목 레이블
+        songTitleLabel = new JLabel(musicTrack.getMusic().get(currentSongIndex).getTitle(), SwingConstants.CENTER);
+        songTitleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+
+        // 노래 이미지
+        songImageLabel = new JLabel(new ImageIcon(musicTrack.getMusic().get(currentSongIndex).getImagePath()), SwingConstants.CENTER);
+
+        // 레벨 레이블 (곡에 맞는 레벨을 고정 표시)
+        levelLabel = new JLabel("Level: " + musicTrack.getMusic().get(currentSongIndex).getLevel(), SwingConstants.CENTER);
+        levelLabel.setFont(new Font("Arial", Font.BOLD, 24));
+
+        // 악기 선택 패널
+        instrumentPanel = new JPanel(new FlowLayout());
+        JButton pianoButton = new JButton("Piano");
+        JButton drumButton = new JButton("Drum");
+        JButton guitarButton = new JButton("Guitar");
+
+        pianoButton.addActionListener(e -> startGame("Piano"));
+        drumButton.addActionListener(e -> startGame("Drum"));
+        guitarButton.addActionListener(e -> startGame("Guitar"));
+
+        instrumentPanel.add(pianoButton);
+        instrumentPanel.add(drumButton);
+        instrumentPanel.add(guitarButton);
+
+        // 화살표 버튼
+        leftArrowButton = new JButton("<");
+        rightArrowButton = new JButton(">");
+
+        leftArrowButton.addActionListener(e -> changeSong(-1)); // 왼쪽 화살표 클릭 시 이전 곡
+        rightArrowButton.addActionListener(e -> changeSong(1)); // 오른쪽 화살표 클릭 시 다음 곡
+
+        // 상단: 노래 제목
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.add(songTitleLabel, BorderLayout.CENTER);
+
+        // 중간: 노래 이미지 + 화살표 버튼
+        JPanel imagePanel = new JPanel(new BorderLayout());
+        JPanel arrowPanel = new JPanel(new FlowLayout());
+        arrowPanel.add(leftArrowButton);
+        arrowPanel.add(rightArrowButton);
+        imagePanel.add(songImageLabel, BorderLayout.CENTER);
+        imagePanel.add(arrowPanel, BorderLayout.SOUTH);
+
+        // 하단: 레벨 표시 + 악기 선택
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(levelLabel, BorderLayout.NORTH); // 레벨 표시
+        bottomPanel.add(instrumentPanel, BorderLayout.CENTER); // 악기 선택 패널
+
+        // 전체 레이아웃
+        add(titlePanel, BorderLayout.NORTH);
+        add(imagePanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
         setVisible(true);
     }
 
-    private void startGame(Music music) {
-        dispose();
-        SwingUtilities.invokeLater(() -> new PianoGame(music).setVisible(true));
+    // 곡을 변경하는 메서드
+    private void changeSong(int direction) {
+        currentSongIndex += direction;
+        if (currentSongIndex < 0) currentSongIndex = musicTrack.getMusic().size() - 1; // 마지막 곡으로 돌아가게
+        if (currentSongIndex >= musicTrack.getMusic().size()) currentSongIndex = 0; // 첫 번째 곡으로 돌아가게
+
+        // 곡 정보 업데이트
+        songTitleLabel.setText(musicTrack.getMusic().get(currentSongIndex).getTitle());
+        // 곡에 맞는 이미지로 업데이트
+        songImageLabel.setIcon(new ImageIcon(musicTrack.getMusic().get(currentSongIndex).getImagePath()));
+        // 레벨 정보 업데이트
+        levelLabel.setText("Level: " + musicTrack.getMusic().get(currentSongIndex).getLevel());
+    }
+
+    // 게임을 시작하는 메서드 (악기 선택)
+    private void startGame(String instrument) {
+        Music selectedMusic = musicTrack.getMusic().get(currentSongIndex);
+        selectedMusic.setInstrument(instrument); // 선택된 악기 설정
+
+        // 악기별 키 매핑 정의
+        Map<Integer, Character> keyMapping;
+        if (instrument.equals("Piano")) {
+            keyMapping = Map.of(
+                    100, 'a',
+                    200, 's',
+                    300, 'd',
+                    400, 'f',
+                    500, 'g',
+                    600, 'h',
+                    700, 'j',
+                    800, 'k',
+                    900, 'l',
+                    1000, ';'
+            );
+        } else if (instrument.equals("Drum")) {
+            keyMapping = Map.of(
+                    100, 'a',
+                    200, 'e',
+                    300, 'g',
+                    400, ' ',
+                    500, 'u',
+                    600, 'k',
+                    700, 'o'
+            );
+        } else { // Guitar
+            keyMapping = Map.of(
+                    100, 'e',
+                    200, 'a',
+                    300, 'd',
+                    400, 'g',
+                    500, 'c',
+                    600, 'f',
+                    700, 'b',
+                    800, 'k'
+            );
+        }
+
+        // 게임 시작
+        SwingUtilities.invokeLater(() -> new PianoGame(selectedMusic, keyMapping).setVisible(true));
+        dispose(); // 현재 GameWindow 닫기
     }
 
     public static void main(String[] args) {

@@ -1,8 +1,11 @@
 package src;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +45,7 @@ public class Guitar extends JPanel {
             public void keyPressed(KeyEvent e) {
                 char keyChar = e.getKeyChar();
                 updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
+                playSound(keyChar); // 기타 소리 재생
                 //PianoInterface.this.controlInterface.recordKey(keyChar);          // 녹음 중이면 키 저장
             }
             @Override
@@ -68,5 +72,17 @@ public class Guitar extends JPanel {
         }
     }
 
-
+    private void playSound(char keyChar) {
+        String soundPath = "src/sound/guitar/" + keyChar + ".wav";
+        try {
+            File soundFile = new File(soundPath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.out.println("Error playing sound for key: " + keyChar);
+            e.printStackTrace();
+        }
+    }
 }

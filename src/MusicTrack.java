@@ -7,9 +7,27 @@ public class MusicTrack {
 
     public MusicTrack() {
         musics = new ArrayList<>();
-        musics.add(new Music("Twinkle Twinkle Little Star", "path/to/twinkle.wav", "easy"));
-        musics.add(new Music("Yeosu Night Sea - Busker Busker", "path/to/yeosu.wav", "nomal"));
-        musics.add(new Music("Welcome to the Show - Day6", "path/to/welcome.wav", "hard"));
+        musics.add(new Music(
+                "Twinkle Twinkle Little Star",
+                "sound/sing/LittleStar.txt.wav",
+                "easy",
+                "src/img/STAR.png",
+                "rhythm/LittleStar.txt.txt"
+        ));
+        musics.add(new Music(
+                "Yeosu Night Sea - Busker Busker",
+                "sound/sing/YeosuNightSea.txt.wav",
+                "normal",
+                "src/img/NIGHT.png",
+                "rhythm/YeosuNightSea.txt.txt"
+        ));
+        musics.add(new Music(
+                "Welcome to the Show - Day6",
+                "sound/sing/WelcomeToTheShow.txt.wav",
+                "hard",
+                "src/img/WTTS.png",
+                "rhythm/WelcomeToTheShow.txt.txt"
+        ));
     }
 
     public ArrayList<Music> getMusic() {

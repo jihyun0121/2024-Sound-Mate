@@ -46,7 +46,7 @@ public class Drum extends JPanel {
             public void keyPressed(KeyEvent e) {
                 char keyChar = e.getKeyChar();
                 updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
-                playSound(keyChar); // 피아노 소리 재생
+                playSound(keyChar); // 드럼 소리 재생
                 //PianoInterface.this.controlInterface.recordKey(keyChar);          // 녹음 중이면 키 저장
             }
             @Override
