@@ -13,8 +13,16 @@ public class Piano extends JPanel {
     //private ControlInterface controlInterface;
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
     private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트
+    private SheetMusicPanel sheetMusicPanel;        // 악보패널
 
+    // 기본 생성자
     public Piano() {
+        this(null);
+    }
+
+    public Piano(SheetMusicPanel sheetMusicPanel) {
+        this.sheetMusicPanel = sheetMusicPanel;
+
         setLayout(new GridLayout(1, 10));
         setBackground(Color.WHITE);
 
@@ -35,7 +43,6 @@ public class Piano extends JPanel {
             tile.setVerticalAlignment(JLabel.CENTER);
 
             tile.setBackground(Color.WHITE);
-
             add(tile);                  // 패널에 타일 추가
             tileMap.put(key, tile);     // Map에 키와 타일
         }
@@ -47,14 +54,13 @@ public class Piano extends JPanel {
                 char keyChar = e.getKeyChar();
                 updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
                 playSound(keyChar); // 피아노 소리 재생
-                //PianoInterface.this.controlInterface.recordKey(keyChar);          // 녹음 중이면 키 저장
+                sheetMusicPanel.addNoteToSheet(keyChar);    // 음표 추가
             }
             @Override
             public void keyReleased(KeyEvent e) {
                 updateTileImage(e.getKeyChar(), "default");     // 키가 떼어졌을 때 기본 이미지로 변경
             }
         });
-
         setFocusable(true);  // 키 입력을 받을 수 있도록 설정
     }
 
@@ -69,7 +75,7 @@ public class Piano extends JPanel {
                 tile.setIcon(new ImageIcon(imagePath));
             }
         } else {
-            System.out.println("Key not mapped or image path missing for key: " + keyChar);
+            System.out.println(keyChar + "키를 찾을 수 없습니다.");
         }
     }
 
@@ -86,6 +92,5 @@ public class Piano extends JPanel {
             e.printStackTrace();
         }
     }
-
 
 }

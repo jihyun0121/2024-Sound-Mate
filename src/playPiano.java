@@ -2,19 +2,14 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class playPiano extends JFrame
 {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new playPiano().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new playPiano().setVisible(true));
     }
-
-    private JPanel sheetMusicPanel;
 
     public playPiano() {
         setTitle("Sound Mate - Play Piano");         // super("Sound Mate"); 같은 기능
@@ -30,62 +25,26 @@ public class playPiano extends JFrame
         this.add(menuBar, BorderLayout.NORTH);
 
         // 악보 패널
-        sheetMusicPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                ImageIcon sheetMusic = new ImageIcon("src/img/오선지.png");
-                g.drawImage(sheetMusic.getImage(), 0, 0, this);
-            }
-        };
-        sheetMusicPanel.setPreferredSize(new Dimension(1191, 218));
+        SheetMusicPanel sheetMusicPanel = new SheetMusicPanel();
+        sheetMusicPanel.setPreferredSize(new Dimension(1190, 100));
         sheetMusicPanel.setBackground(Color.WHITE);
-        add(sheetMusicPanel, BorderLayout.EAST);
+        this.add(sheetMusicPanel, BorderLayout.EAST);
 
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char keyChar = e.getKeyChar();  // 눌린 키
+                sheetMusicPanel.addNoteToSheet(keyChar);  // 악보 패널에 음표 추가
+            }
+        });
 
         // 피아노 키보드 패널
-        Piano piano = new Piano();
+        Piano piano = new Piano(sheetMusicPanel);
         this.add(piano, BorderLayout.SOUTH);
 
-        // 키보드 포커스를 PianoInterface에 설정
+        // 키보드 포커스를 Piano에 설정
+        piano.setFocusable(true);
         piano.requestFocusInWindow();
 
-
-//        // 컨트롤 버튼 패널
-//        JPanel controlPanel = new JPanel();
-//        playButton = new JButton("Play");
-//        pauseButton = new JButton("Pause");
-//        recordButton = new JButton("Record");
-//
-//        controlPanel.add(playButton);
-//        controlPanel.add(pauseButton);
-//        controlPanel.add(recordButton);
-//        add(controlPanel, BorderLayout.SOUTH);
-//
-//        // 버튼 이벤트 처리
-//        playButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Play 기능 구현
-//                System.out.println("Play clicked");
-//            }
-//        });
-//
-//        pauseButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Pause 기능 구현
-//                System.out.println("Pause clicked");
-//            }
-//        });
-//
-//        recordButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Record 기능 구현
-//                System.out.println("Record clicked");
-//            }
-//        });
     }
-
 }
