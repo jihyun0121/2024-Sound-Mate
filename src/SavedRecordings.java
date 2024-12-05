@@ -139,7 +139,9 @@ public class SavedRecordings extends JFrame {
 
         panel = new JPanel(new BorderLayout());
 
-        homeButton = new JButton("홈으로");
+        homeButton = new JButton(new ImageIcon("src/img/home.png"));
+        homeButton.setBorderPainted(false); // 버튼 테두리 없애기
+        homeButton.setContentAreaFilled(false); // 버튼 배경 없애기
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -148,10 +150,21 @@ public class SavedRecordings extends JFrame {
             }
         });
 
+        JPanel homePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        homePanel.add(homeButton);
+        panel.add(homePanel, BorderLayout.NORTH);
+
         // 컬럼 헤더
-        String[] columns = {"녹음 이름", "악기 종류", "재생"};
+        String[] columns = {"제목", "악기 종류", "재생"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
         savedRecordingsTable = new JTable(model);
+
+        // 테이블 크기 조정
+        savedRecordingsTable.setPreferredScrollableViewportSize(new Dimension(1000, 500)); // 테이블 크기 설정
+        savedRecordingsTable.setFillsViewportHeight(true); // 화면 꽉 차게 설정
+
+        // 테이블 행 간격 조정
+        savedRecordingsTable.setRowHeight(40); // 행 높이 설정
 
         // 재생 버튼 컬럼 설정
         savedRecordingsTable.getColumn("재생").setCellRenderer(new PlayButtonRenderer());
