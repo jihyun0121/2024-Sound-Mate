@@ -20,28 +20,27 @@ public class playPiano extends JFrame
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
-        // 컨트롤러 패널
-        src.menuBar menuBar = new menuBar();
-        this.add(menuBar, BorderLayout.NORTH);
-
         // 악보 패널
         SheetMusicPanel sheetMusicPanel = new SheetMusicPanel();
         sheetMusicPanel.setPreferredSize(new Dimension(1190, 100));
         sheetMusicPanel.setBackground(Color.WHITE);
         this.add(sheetMusicPanel, BorderLayout.EAST);
 
+        // 피아노 키보드 패널
+        Piano piano = new Piano(sheetMusicPanel);
+        this.add(piano, BorderLayout.SOUTH);
+
+        // 컨트롤러 패널
+        menuBar menuBar = new menuBar(piano);
+        this.add(menuBar, BorderLayout.NORTH);
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 char keyChar = e.getKeyChar();
                 sheetMusicPanel.addNoteToSheet(keyChar);    // 악보 패널에 음표 추가
-                menuBar.recordKey(keyChar);                 // 녹음된 키 추가
             }
         });
-
-        // 피아노 키보드 패널
-        Piano piano = new Piano(sheetMusicPanel);
-        this.add(piano, BorderLayout.SOUTH);
 
         // 키보드 포커스를 Piano에 설정
         piano.setFocusable(true);

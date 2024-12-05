@@ -25,7 +25,7 @@ public class playDrum extends JFrame {
         this.setLayout(new BorderLayout());
 
         // 컨트롤러 패널
-        src.menuBar menuBar = new menuBar();
+        src.menuBar menuBar = new menuBar(new Piano());
         this.add(menuBar, BorderLayout.NORTH);
 
         // 악보 패널

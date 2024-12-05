@@ -5,27 +5,46 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.*;
 
 public class Piano extends JPanel {
-    //private ControlInterface controlInterface;
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
     private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트
     private SheetMusicPanel sheetMusicPanel;        // 악보패널
+    private ArrayList<Character> recordedKeys = new ArrayList<>();
+    private boolean isRecording = false;
+
+    // 녹음 상태 설정 메서드 추가
+    public void setRecording(boolean recording) {
+        this.isRecording = recording;
+        // 녹음 시작 시 기존 기록 초기화
+        if (recording) {
+            recordedKeys.clear();
+        }
+    }
+
+    // 녹음된 키 가져오는 메서드
+    public ArrayList<Character> getRecordedKeys() {
+        return recordedKeys;
+    }
+
 
     // 기본 생성자
     public Piano() {
-        this(null);
+
     }
 
     public Piano(SheetMusicPanel sheetMusicPanel) {
+        setFocusable(true);
         this.sheetMusicPanel = sheetMusicPanel;
 
         setLayout(new GridLayout(1, 10));
         setBackground(Color.WHITE);
 
+        // 초기화
         tileMap = new HashMap<>();
         tileImages = new HashMap<>();
 
@@ -55,6 +74,10 @@ public class Piano extends JPanel {
                 updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
                 playSound(keyChar); // 피아노 소리 재생
                 sheetMusicPanel.addNoteToSheet(keyChar);    // 음표 추가
+
+                if (isRecording) {
+                    recordedKeys.add(keyChar);
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {

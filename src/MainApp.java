@@ -67,10 +67,4 @@ public class MainApp extends JFrame {
 
         return instrumentPanel;
     }
-
-    // 악기 연주 화면 열기 (추가 구현 가능)
-    private void openInstrumentScreen(String instrument) {
-        JOptionPane.showMessageDialog(this, instrument + " 연주 화면으로 이동합니다!");
-        // 실제 악기 연주 화면 구현 필요
-    }
 }
