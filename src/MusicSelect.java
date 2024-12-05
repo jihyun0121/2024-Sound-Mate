@@ -2,8 +2,6 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class MusicSelect extends JPanel {
@@ -26,9 +24,9 @@ public class MusicSelect extends JPanel {
             JButton drumButton = new JButton("Drum: " + music.getTitle());
             JButton guitarButton = new JButton("Guitar: " + music.getTitle());
 
-            pianoButton.addActionListener(e -> startGame(frame, music, pianoKeys));
-            drumButton.addActionListener(e -> startGame(frame, music, drumKeys));
-            guitarButton.addActionListener(e -> startGame(frame, music, guitarKeys));
+            pianoButton.addActionListener(e -> startGame(frame, music, pianoKeys, "P"));
+            drumButton.addActionListener(e -> startGame(frame, music, drumKeys, "D"));
+            guitarButton.addActionListener(e -> startGame(frame, music, guitarKeys, "G"));
 
             add(pianoButton);
             add(drumButton);
@@ -36,9 +34,19 @@ public class MusicSelect extends JPanel {
         }
     }
 
-    private void startGame(JFrame frame, Music music, Map<Integer, Character> keyMapping) {
+    private void startGame(JFrame frame, Music music, Map<Integer, Character> keyMapping, String instrumentCode) {
         frame.getContentPane().removeAll();
-        frame.add(new PianoGame(music, keyMapping)); // 선택된 곡과 키 매핑으로 게임 실행
+
+        // 노트 파일 경로 생성: 예) src/rhythm/P-LittleStar.txt
+        String noteFilePath = "src/rhythm/" + instrumentCode + "-" + music.getTitle().replace(" ", "") + ".txt";
+
+        switch (instrumentCode) {
+            case "P" -> frame.add(new PianoGame(music, noteFilePath, keyMapping));
+            case "D" -> frame.add(new DrumGame(music, noteFilePath, keyMapping));
+            case "G" -> frame.add(new GuitarGame(music, noteFilePath, keyMapping));
+            default -> throw new IllegalArgumentException("Invalid instrument: " + instrumentCode);
+        }
+
         frame.revalidate();
         frame.repaint();
     }
