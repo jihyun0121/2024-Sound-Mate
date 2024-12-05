@@ -19,16 +19,12 @@ public class playGuitar extends JFrame {
 
         // 악보 패널
         SheetMusicPanel sheetMusicPanel = new SheetMusicPanel();
-        sheetMusicPanel.setPreferredSize(new Dimension(1190, 100));
-        sheetMusicPanel.setBackground(Color.WHITE);
-        this.add(sheetMusicPanel, BorderLayout.EAST);
 
         // 기타 자판 패널
         Guitar guitar = new Guitar(sheetMusicPanel);
         this.add(guitar, BorderLayout.SOUTH);
 
         // 컨트롤러 패널
-        InstrumentPanel guitarPanel = new Guitar();
         menuBar menuBar = new menuBar(guitar);
         this.add(menuBar, BorderLayout.NORTH);
 

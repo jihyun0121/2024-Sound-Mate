@@ -31,6 +31,13 @@ public class MainApp extends JFrame {
         setVisible(true);
     }
 
+    // 버튼 스타일을 설정하는 메소드
+    private void setButtonStyle(JButton button) {
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+    }
+
     // 메인 메뉴 화면
     private JPanel createMainMenuScreen() {
         JPanel menuPanel = new JPanel(new GridBagLayout());
@@ -38,6 +45,10 @@ public class MainApp extends JFrame {
 
         JButton playMusicButton = new JButton("악기 연주");
         JButton rhythmGameButton = new JButton("리듬 게임");
+
+        // 버튼 스타일 적용
+        setButtonStyle(playMusicButton);
+        setButtonStyle(rhythmGameButton);
 
         playMusicButton.addActionListener(e -> cardLayout.show(cardPanel, "InstrumentSelection"));
         rhythmGameButton.addActionListener(e -> { new GameWindow(); dispose(); });
@@ -56,6 +67,10 @@ public class MainApp extends JFrame {
         JButton pianoButton = new JButton("피아노");
         JButton guitarButton = new JButton("기타");
         JButton drumButton = new JButton("드럼");
+
+        setButtonStyle(pianoButton);
+        setButtonStyle(guitarButton);
+        setButtonStyle(drumButton);
 
         pianoButton.addActionListener(e -> new playPiano());
         guitarButton.addActionListener(e -> new playGuitar());

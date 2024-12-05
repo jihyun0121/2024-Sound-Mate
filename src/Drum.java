@@ -41,6 +41,7 @@ public class Drum extends JPanel implements InstrumentPanel {
     }
 
     public Drum(SheetMusicPanel sheetMusicPanel) {
+        super();
         setFocusable(true);
         this.sheetMusicPanel = sheetMusicPanel;
 
