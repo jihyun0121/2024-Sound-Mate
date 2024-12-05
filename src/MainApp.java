@@ -40,7 +40,7 @@ public class MainApp extends JFrame {
         JButton rhythmGameButton = new JButton("리듬 게임");
 
         playMusicButton.addActionListener(e -> cardLayout.show(cardPanel, "InstrumentSelection"));
-        rhythmGameButton.addActionListener(e -> cardLayout.show(cardPanel, "InstrumentSelection"));
+        rhythmGameButton.addActionListener(e -> { new GameWindow(); dispose(); });
 
         menuPanel.add(playMusicButton);
         menuPanel.add(rhythmGameButton);

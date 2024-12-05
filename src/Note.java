@@ -54,9 +54,11 @@ public class Note extends JPanel {
         setLocation(xPosition, yPosition);
 
         // 라인에 도달한지 확인 (라인 Y 좌표는 고정된 LINE_Y 사용)
-        if (yPosition >= LINE_Y - 20 && yPosition <= LINE_Y + 20) { // 라인 범위 내
-            lineReached = true; // 라인 도달 상태 설정
-            reachTime = System.currentTimeMillis(); // 라인 도달 시간 기록
+        if (yPosition >= LINE_Y - 65 && yPosition <= LINE_Y + 50) { // 라인 범위 내
+            if (!lineReached){
+                lineReached = true; // 라인 도달 상태 설정
+                reachTime = System.currentTimeMillis(); // 라인 도달 시간 기록
+            }
         }
 
         if (yPosition > 720) { // 화면 아래로 벗어나면 비활성화

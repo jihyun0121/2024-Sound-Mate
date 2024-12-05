@@ -31,31 +31,12 @@ public class DrumGame extends JFrame {
         track.setBackground(Color.WHITE); // 배경 색 설정
         add(track, BorderLayout.CENTER);
 
-        // 노트 트랙 패널과 이미지 패널을 감싸는 새로운 패널 생성
-        JPanel trackContainer = new JPanel();
-        trackContainer.setLayout(new BorderLayout());
-
         // 하단 악기 패널
         Drum drum = new Drum();
         drum.setBackground(Color.WHITE);
 
-        // Line.png 이미지 로드 및 크기 조정
-        ImageIcon trackImageIcon = new ImageIcon("src/img/Line.png");
-        Image originalImage = trackImageIcon.getImage();
-        Image resizedImage = originalImage.getScaledInstance(trackImageIcon.getIconWidth(), 10, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(resizedImage);
-
-        // JLabel에 크기가 조정된 아이콘 설정
-        JLabel trackImageLabel = new JLabel(resizedIcon);
-        trackImageLabel.setHorizontalAlignment(SwingConstants.CENTER); // 이미지 정렬
-
-
-        // trackContainer에 추가
-        trackContainer.add(track, BorderLayout.CENTER); // 노트 트랙
-        trackContainer.add(trackImageLabel, BorderLayout.SOUTH); // 악기 위에 이미지
-
         // 최종 배치
-        add(trackContainer, BorderLayout.CENTER); // 전체 중앙에 trackContainer 배치
+        add(track, BorderLayout.CENTER); // 전체 중앙에 Track 배치
         add(drum, BorderLayout.SOUTH); // 악기 패널은 맨 아래
 
 
