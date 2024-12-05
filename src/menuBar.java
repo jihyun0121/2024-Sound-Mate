@@ -78,7 +78,16 @@ public class menuBar extends JPanel {
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "SavedFiles"); // 저장된 파일 화면으로 이동
+                // SavedRecordings JFrame을 새로 띄우는 코드
+                String username = Login.getLoggedInUsername();
+                if (username != null) {
+                    // 로그인된 사용자 이름을 넘겨주면서 SavedRecordings 화면을 띄움
+                    SavedRecordings savedRecordings = new SavedRecordings();
+                    savedRecordings.setVisible(true);
+                } else {
+                    // 로그인되지 않았다면 로그인 화면을 띄움
+                    new Login();
+                }
             }
         });
 
@@ -111,7 +120,12 @@ public class menuBar extends JPanel {
                         } else {
                             // 사용자 ID가 유효한 경우 녹음 데이터를 저장합니다.
                             String instrument = instrumentPanel.getInstrumentType();
-                            boolean saveSuccess = DatabaseConnection.saveRecording(userId, recordedKeys, instrument);
+                            String name = JOptionPane.showInputDialog("제목을 입력하세요");
+                            if (name == null || name.trim().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "이름을 입력해야 저장할 수 있습니다.", "입력 필요", JOptionPane.WARNING_MESSAGE);
+                                return;
+                            }
+                            boolean saveSuccess = DatabaseConnection.saveRecording(userId, name, recordedKeys, instrument);
 
                             if (saveSuccess) {
                                 JOptionPane.showMessageDialog(null, "녹음이 성공적으로 저장되었습니다.");
