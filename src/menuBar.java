@@ -62,17 +62,14 @@ public class menuBar extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Window parentWindow = SwingUtilities.getWindowAncestor(menuBar.this);
 
-                // Close the current window
                 if (parentWindow != null) {
                     parentWindow.dispose();
                 }
 
-                // Create a new MainApp with the logged-in username
                 String username = Login.getLoggedInUsername();
                 if (username != null) {
                     new MainApp(username);
                 } else {
-                    // Fallback to show login screen if no username is found
                     new Login();
                 }
             }
