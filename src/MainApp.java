@@ -51,7 +51,7 @@ public class MainApp extends JFrame {
         setButtonStyle(rhythmGameButton);
 
         playMusicButton.addActionListener(e -> cardLayout.show(cardPanel, "InstrumentSelection"));
-        rhythmGameButton.addActionListener(e -> cardLayout.show(cardPanel, "InstrumentSelection"));
+        rhythmGameButton.addActionListener(e -> { new GameWindow(); dispose(); });
 
         menuPanel.add(playMusicButton);
         menuPanel.add(rhythmGameButton);
