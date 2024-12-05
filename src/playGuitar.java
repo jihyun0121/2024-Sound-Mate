@@ -5,15 +5,8 @@ import java.awt.*;
 
 public class playGuitar extends JFrame {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new playGuitar().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new playGuitar().setVisible(true));
     }
-
-    private JPanel sheetMusicPanel;
 
     public playGuitar() {
         setTitle("Sound Mate - Play Guitar");         // super("Sound Mate"); 같은 기능
@@ -24,31 +17,23 @@ public class playGuitar extends JFrame {
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
-
-        // 컨트롤러 패널
-        src.menuBar menuBar = new menuBar(new Piano());
-        this.add(menuBar, BorderLayout.NORTH);
-
-
         // 악보 패널
-        sheetMusicPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                ImageIcon sheetMusic = new ImageIcon("src/img/오선지.png");
-                g.drawImage(sheetMusic.getImage(), 0, 0, this);
-            }
-        };
-        sheetMusicPanel.setPreferredSize(new Dimension(1191, 218));
+        SheetMusicPanel sheetMusicPanel = new SheetMusicPanel();
+        sheetMusicPanel.setPreferredSize(new Dimension(1190, 100));
         sheetMusicPanel.setBackground(Color.WHITE);
-        add(sheetMusicPanel, BorderLayout.EAST);
-
+        this.add(sheetMusicPanel, BorderLayout.EAST);
 
         // 기타 자판 패널
-        Guitar guitar = new Guitar();
+        Guitar guitar = new Guitar(sheetMusicPanel);
         this.add(guitar, BorderLayout.SOUTH);
 
+        // 컨트롤러 패널
+        InstrumentPanel guitarPanel = new Guitar();
+        menuBar menuBar = new menuBar(guitar);
+        this.add(menuBar, BorderLayout.NORTH);
+
         // 키보드 포커스를 Guitar에 설정
+        guitar.setFocusable(true);
         guitar.requestFocusInWindow();
     }
 }

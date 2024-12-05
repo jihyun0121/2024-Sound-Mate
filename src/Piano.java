@@ -10,27 +10,35 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.*;
 
-public class Piano extends JPanel {
+public class Piano extends JPanel implements InstrumentPanel {
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
-    private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트
+    private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트 <타일위치, 이미지경로, 상태>
     private SheetMusicPanel sheetMusicPanel;        // 악보패널
     private ArrayList<Character> recordedKeys = new ArrayList<>();
+    private Piano pianoPanel;
     private boolean isRecording = false;
 
     // 녹음 상태 설정 메서드 추가
-    public void setRecording(boolean recording) {
-        this.isRecording = recording;
-        // 녹음 시작 시 기존 기록 초기화
-        if (recording) {
-            recordedKeys.clear();
-        }
+    @Override
+    public void setRecording(boolean isRecording) {
+        this.isRecording = isRecording;
+        // 실제 녹음 처리 코드
     }
 
-    // 녹음된 키 가져오는 메서드
+    @Override
     public ArrayList<Character> getRecordedKeys() {
         return recordedKeys;
     }
 
+//    @Override
+//    public boolean requestFocusInWindow() {
+//        return super.requestFocusInWindow(); // 기본 동작 유지
+//    }
+
+    @Override
+    public String getInstrumentType() {
+        return "Piano";
+    }
 
     // 기본 생성자
     public Piano() {
