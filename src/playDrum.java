@@ -28,7 +28,6 @@ public class playDrum extends JFrame {
         this.add(drum, BorderLayout.SOUTH);
 
         // 컨트롤러 패널
-        InstrumentPanel drumPanel = new Drum();  // 드럼
         menuBar menuBar = new menuBar(drum);
         this.add(menuBar, BorderLayout.NORTH);
 

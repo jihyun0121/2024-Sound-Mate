@@ -24,6 +24,9 @@ public class menuBar extends JPanel {
     private ArrayList<Character> recordedKeys = new ArrayList<>(); // 키 저장
     private InstrumentPanel instrumentPanel;
 
+    private CardLayout cardLayout; // 화면 전환을 위한 CardLayout
+    private JPanel cardPanel; // CardLayout에 추가할 패널
+
     ImageIcon homeImg = new ImageIcon("src/img/home.png");
     ImageIcon pressHomeImg = new ImageIcon("src/img/pre-home.png");
     ImageIcon recordImg = new ImageIcon("src/img/record.png");
@@ -57,14 +60,28 @@ public class menuBar extends JPanel {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                instrumentPanel.requestFocusInWindow();
+                Window parentWindow = SwingUtilities.getWindowAncestor(menuBar.this);
+
+                // Close the current window
+                if (parentWindow != null) {
+                    parentWindow.dispose();
+                }
+
+                // Create a new MainApp with the logged-in username
+                String username = Login.getLoggedInUsername();
+                if (username != null) {
+                    new MainApp(username);
+                } else {
+                    // Fallback to show login screen if no username is found
+                    new Login();
+                }
             }
         });
 
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                instrumentPanel.requestFocusInWindow();
+                cardLayout.show(cardPanel, "SavedFiles"); // 저장된 파일 화면으로 이동
             }
         });
 

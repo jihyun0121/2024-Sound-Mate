@@ -28,7 +28,6 @@ public class playGuitar extends JFrame {
         this.add(guitar, BorderLayout.SOUTH);
 
         // 컨트롤러 패널
-        InstrumentPanel guitarPanel = new Guitar();
         menuBar menuBar = new menuBar(guitar);
         this.add(menuBar, BorderLayout.NORTH);
 
