@@ -19,16 +19,12 @@ public class playDrum extends JFrame {
 
         // 악보 패널
         SheetMusicPanel sheetMusicPanel = new SheetMusicPanel();
-        sheetMusicPanel.setPreferredSize(new Dimension(1190, 100));
-        sheetMusicPanel.setBackground(Color.WHITE);
-        this.add(sheetMusicPanel, BorderLayout.EAST);
 
         // 드럼 패널
         Drum drum = new Drum(sheetMusicPanel);
         this.add(drum, BorderLayout.SOUTH);
 
         // 컨트롤러 패널
-        InstrumentPanel drumPanel = new Drum();  // 드럼
         menuBar menuBar = new menuBar(drum);
         this.add(menuBar, BorderLayout.NORTH);
 
