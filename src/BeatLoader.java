@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BeatLoader {
-    public static List<Note> loadNotes(String filePath, Map<Integer, Character> keyMapping) {
+    public static List<Note> loadNotes(String filePath, Map<Integer, Character> keyMapping, String instrument) {
         List<Note> notes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -18,7 +18,7 @@ public class BeatLoader {
                     int time = Integer.parseInt(parts[0].trim());
                     int x = Integer.parseInt(parts[1].trim());
                     char key = keyMapping.getOrDefault(x, ' ');
-                    notes.add(new Note(x, time, key));
+                    notes.add(new Note(x, time, key, instrument)); // instrument 전달
                 }
             }
         } catch (IOException | NumberFormatException e) {

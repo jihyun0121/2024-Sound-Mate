@@ -4,45 +4,80 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DrumGame extends JFrame {
     private String musicTitle;
     private Track track;
+    private gameBar gameBarPanel;
 
-    public DrumGame(Music music, Map<Integer, Character> keyMapping) {
+    public DrumGame(Music music, String noteFilePath, Map<Integer, Character> keyMapping) {
         this.musicTitle = music.getTitle();
 
         setTitle("Drum Game - " + musicTitle);
-        this.setSize(1280, 720);
-        this.getContentPane().setBackground(Color.white);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setLayout(new BorderLayout());
+        setSize(1280, 720);
+        getContentPane().setBackground(Color.white);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // gameBar 객체 초기화
+        gameBarPanel = new gameBar();
+        add(gameBarPanel, BorderLayout.NORTH); // 상단에 배치
 
         // 노트 트랙 패널
-        track = new Track();
-        track.setBackground(Color.white); // 배경 색 설정
+        track = new Track(keyMapping, gameBarPanel); // 키 매핑을 Track에 전달
+        track.setBackground(Color.WHITE); // 배경 색 설정
         add(track, BorderLayout.CENTER);
 
-        // 상단 게임바 패널
-        gameBar gameBar = new gameBar();
-        add(gameBar, BorderLayout.NORTH);
+        // 노트 트랙 패널과 이미지 패널을 감싸는 새로운 패널 생성
+        JPanel trackContainer = new JPanel();
+        trackContainer.setLayout(new BorderLayout());
 
-        // 하단 피아노 키보드 패널
+        // 하단 악기 패널
         Drum drum = new Drum();
-        drum.setBackground(Color.white); // 배경 색 설정
-        add(drum, BorderLayout.SOUTH);
+        drum.setBackground(Color.WHITE);
+
+        // Line.png 이미지 로드 및 크기 조정
+        ImageIcon trackImageIcon = new ImageIcon("src/img/Line.png");
+        Image originalImage = trackImageIcon.getImage();
+        Image resizedImage = originalImage.getScaledInstance(trackImageIcon.getIconWidth(), 10, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+
+        // JLabel에 크기가 조정된 아이콘 설정
+        JLabel trackImageLabel = new JLabel(resizedIcon);
+        trackImageLabel.setHorizontalAlignment(SwingConstants.CENTER); // 이미지 정렬
+
+
+        // trackContainer에 추가
+        trackContainer.add(track, BorderLayout.CENTER); // 노트 트랙
+        trackContainer.add(trackImageLabel, BorderLayout.SOUTH); // 악기 위에 이미지
+
+        // 최종 배치
+        add(trackContainer, BorderLayout.CENTER); // 전체 중앙에 trackContainer 배치
+        add(drum, BorderLayout.SOUTH); // 악기 패널은 맨 아래
+
 
         // 텍스트 파일에서 노트 데이터 로드
-        String noteFilePath = music.getNoteFilePath();
-        List<Note> noteTimingData = BeatLoader.loadNotes(noteFilePath, keyMapping);
+        List<Note> noteTimingData = BeatLoader.loadNotes(noteFilePath, keyMapping, "drum");
         track.generateNotes(noteTimingData);
 
-        // 키보드 포커스 설정
-        drum.requestFocusInWindow();
+        // 게임 시작 전, 포커스 요청 (SwingUtilities로 래핑)
+        SwingUtilities.invokeLater(() -> {
+            drum.requestFocusInWindow(); // 포커스를 설정하여 키 입력을 받을 수 있도록 함
+        });
 
         // 게임 시작
         track.startGame();
+
+        drum.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char keyPressed = Character.toLowerCase(e.getKeyChar());
+                track.keyPressed(keyPressed); // 키가 눌리면 Track에서 처리
+            }
+        });
 
         setVisible(true);
     }
@@ -50,28 +85,28 @@ public class DrumGame extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Music defaultMusic = new Music(
-                    "Default Song",
-                    "src/sound/sing/default.wav",
+                    "Twinkle Twinkle Little Star",
+                    "sound/sing/LittleStar.wav",
                     "easy",
-                    "src/img/default_image.png",
-                    "src/rhythm/default_notes.txt"
+                    "src/img/STAR.png",
+                    "src/rhythm/D-LittleStar.txt",
+                    "src/rhythm/D-YeosuNightSea.txt",
+                    "src/rhythm/D-WelcomeToTheShow.txt"
             );
 
-            // 피아노 키 매핑
+            // 드럼 키 매핑
             Map<Integer, Character> drumKeys = Map.of(
-                    100, 'a',
-                    200, 's',
-                    300, 'd',
-                    400, 'f',
-                    500, 'g',
-                    600, 'h',
-                    700, 'j',
-                    800, 'k',
-                    900, 'l',
-                    1000, ';'
+                    0, 'a',
+                    172, 'e',
+                    344, 'g',
+                    599, ' ',
+                    768, 'u',
+                    943, 'k',
+                    1112, 'o'
             );
 
-            new DrumGame(defaultMusic, drumKeys).setVisible(true);
+            String noteFilePath = defaultMusic.getDrumNoteFilePath();
+            new DrumGame(defaultMusic, noteFilePath, drumKeys).setVisible(true);
         });
     }
 }

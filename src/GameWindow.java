@@ -98,50 +98,57 @@ public class GameWindow extends JFrame {
     // 게임을 시작하는 메서드 (악기 선택)
     private void startGame(String instrument) {
         Music selectedMusic = musicTrack.getMusic().get(currentSongIndex);
-        selectedMusic.setInstrument(instrument); // 선택된 악기 설정
+        selectedMusic.setInstrument(instrument);
 
-        // 악기별 키 매핑 정의
+        String noteFilePath;
         Map<Integer, Character> keyMapping;
         if (instrument.equals("Piano")) {
             keyMapping = Map.of(
-                    100, 'a',
-                    200, 's',
-                    300, 'd',
-                    400, 'f',
-                    500, 'g',
-                    600, 'h',
-                    700, 'j',
-                    800, 'k',
-                    900, 'l',
-                    1000, ';'
+                    0, 'a',
+                    128, 's',
+                    256, 'd',
+                    384, 'f',
+                    512, 'g',
+                    640, 'h',
+                    768, 'j',
+                    896, 'k',
+                    1024, 'l',
+                    1152, ';'
             );
+            noteFilePath = selectedMusic.getPianoNoteFilePath();
+            SwingUtilities.invokeLater(() -> new PianoGame(selectedMusic, noteFilePath, keyMapping).setVisible(true));
         } else if (instrument.equals("Drum")) {
             keyMapping = Map.of(
-                    100, 'a',
-                    200, 'e',
-                    300, 'g',
-                    400, ' ',
-                    500, 'u',
-                    600, 'k',
-                    700, 'o'
+                    0, 'a',
+                    172, 'e',
+                    344, 'g',
+                    599, ' ',
+                    768, 'u',
+                    943, 'k',
+                    1112, 'o'
             );
+            noteFilePath = selectedMusic.getDrumNoteFilePath();
+            SwingUtilities.invokeLater(() -> new DrumGame(selectedMusic, noteFilePath, keyMapping).setVisible(true));
         } else { // Guitar
             keyMapping = Map.of(
-                    100, 'e',
-                    200, 'a',
-                    300, 'd',
-                    400, 'g',
-                    500, 'c',
-                    600, 'f',
-                    700, 'b',
-                    800, 'k'
+                    0, '1',
+                    128, 'e',
+                    256, 'a',
+                    384, 'd',
+                    512, 'g',
+                    640, 'c',
+                    768, 'f',
+                    896, 'b',
+                    1024, 'k',
+                    1152, '2'
             );
+            noteFilePath = selectedMusic.getGuitarNoteFilePath();
+            SwingUtilities.invokeLater(() -> new GuitarGame(selectedMusic, noteFilePath, keyMapping).setVisible(true));
         }
 
-        // 게임 시작
-        SwingUtilities.invokeLater(() -> new PianoGame(selectedMusic, keyMapping).setVisible(true));
         dispose(); // 현재 GameWindow 닫기
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(GameWindow::new);
