@@ -33,8 +33,9 @@ public class playPiano extends JFrame
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                char keyChar = e.getKeyChar();  // 눌린 키
-                sheetMusicPanel.addNoteToSheet(keyChar);  // 악보 패널에 음표 추가
+                char keyChar = e.getKeyChar();
+                sheetMusicPanel.addNoteToSheet(keyChar);    // 악보 패널에 음표 추가
+                menuBar.recordKey(keyChar);                 // 녹음된 키 추가
             }
         });
 

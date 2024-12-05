@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Login extends JFrame {
+    private static String loggedInUsername = null; // 초기값은 로그아웃 상태
+
     public static void main(String[] args) {
         new Login();
     }
@@ -48,6 +50,14 @@ public class Login extends JFrame {
         btnSignup.setContentAreaFilled(false);
         btnSignup.setFocusPainted(false);
 
+        // 패널에 컴포넌트 추가
+        panel.add(l1);  panel.add(id);
+        panel.add(l2);  panel.add(pw);
+        panel.add(btn); panel.add(btnSignup);
+
+        // 프레임에 패널 추가
+        f.add(panel);
+        f.setVisible(true);
 
         // 버튼 클릭 이벤트
         btn.addActionListener(new ActionListener() {
@@ -57,7 +67,10 @@ public class Login extends JFrame {
                 String password = String.valueOf(pw.getPassword()); // 입력된 비밀번호
 
                 if (authenticateUser(username, password)) {
+                    loggedInUsername = username; // 로그인 성공 시 사용자 이름 저장
                     JOptionPane.showMessageDialog(f, "로그인 성공!");
+                    dispose(); // 현재 로그인 창 닫기
+                    new MainApp(username);
                 } else {
                     JOptionPane.showMessageDialog(f, "로그인 실패. 아이디 또는 비밀번호를 확인하세요.");
                 }
@@ -72,15 +85,6 @@ public class Login extends JFrame {
                 new Signup(); // 회원가입 창 열기
             }
         });
-
-        // 패널에 컴포넌트 추가
-        panel.add(l1);  panel.add(id);
-        panel.add(l2);  panel.add(pw);
-        panel.add(btn); panel.add(btnSignup);
-
-        // 프레임에 패널 추가
-        f.add(panel);
-        f.setVisible(true);
     }
 
     // 사용자 인증 메서드
@@ -98,7 +102,7 @@ public class Login extends JFrame {
             pstmt.setString(2, password);
 
             rs = pstmt.executeQuery();
-            isAuthenticated = rs.next(); // 결과가 있으면 로그인 성공
+            isAuthenticated = rs.next();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -111,5 +115,15 @@ public class Login extends JFrame {
             }
         }
         return isAuthenticated;
+    }
+
+    // 로그인된 사용자 ID를 가져오는 메서드
+    public static String getLoggedInUsername() {
+        return loggedInUsername;
+    }
+
+    // 로그아웃 기능
+    public static void logout() {
+        loggedInUsername = null; // 사용자 로그아웃 처리
     }
 }
