@@ -5,19 +5,49 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.*;
 
-public class Drum extends JPanel {
+public class Drum extends JPanel implements InstrumentPanel {
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
     private Map<Character, Map<String, String>> tileImages; // 타일별 이미지 세트 <타일위치, 이미지경로, 상태>
 
+    private SheetMusicPanel sheetMusicPanel;        // 악보패널
+    private ArrayList<Character> recordedKeys = new ArrayList<>();
+    private boolean isRecording = false;
+
+    // 녹음 상태 설정 메서드 추가
+    @Override
+    public void setRecording(boolean isRecording) {
+        this.isRecording = isRecording;
+        // 실제 녹음 처리 코드
+    }
+
+    @Override
+    public ArrayList<Character> getRecordedKeys() {
+        return recordedKeys;
+    }
+
+    @Override
+    public String getInstrumentType() {
+        return "Drum";
+    }
+
+    // 기본 생성자
     public Drum() {
-        //setLayout(new GridLayout(1, 10));
+
+    }
+
+    public Drum(SheetMusicPanel sheetMusicPanel) {
+        setFocusable(true);
+        this.sheetMusicPanel = sheetMusicPanel;
+
         setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         setBackground(Color.WHITE);
 
+        // 초기화
         tileMap = new HashMap<>();
         tileImages = new HashMap<>();
 
@@ -35,7 +65,6 @@ public class Drum extends JPanel {
             tile.setVerticalAlignment(JLabel.CENTER);
 
             tile.setBackground(Color.WHITE);
-
             add(tile);      // 패널에 타일 추가
             tileMap.put(key, tile);     // Map에 키와 타일 매핑
         }
@@ -47,14 +76,16 @@ public class Drum extends JPanel {
                 char keyChar = e.getKeyChar();
                 updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
                 playSound(keyChar); // 드럼 소리 재생
-                //PianoInterface.this.controlInterface.recordKey(keyChar);          // 녹음 중이면 키 저장
+
+                if (isRecording) {
+                    recordedKeys.add(keyChar);
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {
                 updateTileImage(e.getKeyChar(), "default");     // 키가 떼어졌을 때 기본 이미지로 변경
             }
         });
-
         setFocusable(true);  // 키 입력을 받을 수 있도록 설정
     }
 
@@ -69,7 +100,7 @@ public class Drum extends JPanel {
                 tile.setIcon(new ImageIcon(imagePath));
             }
         } else {
-            System.out.println("Key not mapped or image path missing for key: " + keyChar);
+            System.out.println(keyChar + "키를 찾을 수 없습니다.");
         }
     }
 

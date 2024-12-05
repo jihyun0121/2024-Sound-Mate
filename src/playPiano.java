@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class playPiano extends JFrame
-{
+public class playPiano extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new playPiano().setVisible(true));
     }
@@ -42,7 +41,7 @@ public class playPiano extends JFrame
             }
         });
 
-        // 키보드 포커스를 Piano에 설정
+        // Piano 컴포넌트 포커스 설정
         piano.setFocusable(true);
         piano.requestFocusInWindow();
 

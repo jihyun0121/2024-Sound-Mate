@@ -6,14 +6,43 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Guitar extends JPanel {
+public class Guitar extends JPanel implements InstrumentPanel {
     private Map<Character, JLabel> tileMap;         // 키와 타일을 매핑할 Map
     private Map<Character, Map<String, String>> tileImages;     // 타일별 이미지 세트 <타일위치, 이미지경로, 상태>
 
+    private SheetMusicPanel sheetMusicPanel;        // 악보패널
+    private ArrayList<Character> recordedKeys = new ArrayList<>();
+    private boolean isRecording = false;
+
+    @Override
+    public void setRecording(boolean isRecording) {
+        this.isRecording = isRecording;
+        // 실제 녹음 처리 코드
+    }
+
+    @Override
+    public ArrayList<Character> getRecordedKeys() {
+        return recordedKeys;
+    }
+
+    @Override
+    public String getInstrumentType() {
+        return "Guitar";
+    }
+
+    // 기본 생성자
     public Guitar() {
+
+    }
+
+    public Guitar(SheetMusicPanel sheetMusicPanel) {
+        setFocusable(true);
+        this.sheetMusicPanel = sheetMusicPanel;
+
         setLayout(new GridLayout(1, 10));
         setBackground(Color.WHITE);
 
@@ -34,7 +63,6 @@ public class Guitar extends JPanel {
             tile.setVerticalAlignment(JLabel.CENTER);
 
             tile.setBackground(Color.WHITE);
-
             add(tile);      // 패널에 타일 추가
             tileMap.put(key, tile);     // Map에 키와 타일 매핑
         }
@@ -46,14 +74,16 @@ public class Guitar extends JPanel {
                 char keyChar = e.getKeyChar();
                 updateTileImage(keyChar, "pressed");    // 키가 눌렸을 때
                 playSound(keyChar); // 기타 소리 재생
-                //PianoInterface.this.controlInterface.recordKey(keyChar);          // 녹음 중이면 키 저장
+
+                if (isRecording) {
+                    recordedKeys.add(keyChar);
+                }
             }
             @Override
             public void keyReleased(KeyEvent e) {
                 updateTileImage(e.getKeyChar(), "default");     // 키가 떼어졌을 때 기본 이미지로 변경
             }
         });
-
         setFocusable(true);  // 키 입력을 받을 수 있도록 설정
     }
 
