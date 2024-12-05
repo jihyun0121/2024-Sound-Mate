@@ -23,7 +23,7 @@ public class Signup extends JFrame {
 
         // 패널 설정
         JPanel panel = new JPanel();
-        panel.setLayout(null);  // 레이아웃을 null로 설정
+        panel.setLayout(null);      // 레이아웃을 null로 설정
         panel.setBackground(Color.white);
 
         JLabel l1 = new JLabel("아이디 : ");    // 아이디 라벨
