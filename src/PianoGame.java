@@ -4,10 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PianoGame extends JFrame {
     private String musicTitle;
     private Track track;
+    private gameBar gameBarPanel;
 
     public PianoGame(Music music, String noteFilePath, Map<Integer, Character> keyMapping) {
         this.musicTitle = music.getTitle();
@@ -19,14 +22,14 @@ public class PianoGame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // gameBar 객체 초기화
+        gameBarPanel = new gameBar();
+        add(gameBarPanel, BorderLayout.NORTH); // 상단에 배치
+
         // 노트 트랙 패널
-        track = new Track();
+        track = new Track(keyMapping, gameBarPanel); // 키 매핑을 Track에 전달
         track.setBackground(Color.WHITE); // 배경 색 설정
         add(track, BorderLayout.CENTER);
-
-        // 상단 게임바 패널
-        gameBar gameBar = new gameBar();
-        add(gameBar, BorderLayout.NORTH);
 
         // 노트 트랙 패널과 이미지 패널을 감싸는 새로운 패널 생성
         JPanel trackContainer = new JPanel();
@@ -67,6 +70,14 @@ public class PianoGame extends JFrame {
 
         // 게임 시작
         track.startGame();
+
+        piano.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char keyPressed = Character.toLowerCase(e.getKeyChar());
+                track.keyPressed(keyPressed); // 키가 눌리면 Track에서 처리
+            }
+        });
 
         setVisible(true);
     }
