@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Note extends JPanel {
+    private static final int LINE_Y = 200; // 라인 위치 고정
+
     private int xPosition; // 노트의 x 좌표
     private int yPosition; // 노트의 y 좌표
     private boolean active; // 노트가 활성 상태인지 여부
@@ -11,6 +13,7 @@ public class Note extends JPanel {
     private char key; // 노트와 연결된 키
     private String instrumentType; // 악기 타입 (예: "piano", "guitar", "drum")
     private boolean lineReached; // 라인에 도달했는지 여부 추가
+    private long reachTime; // 라인에 도달한 시간 (밀리초)
 
     public Note(int xPosition, int time, char key, String instrumentType) {
         this.xPosition = xPosition;
@@ -20,6 +23,7 @@ public class Note extends JPanel {
         this.key = key;
         this.instrumentType = instrumentType;
         this.lineReached = false; // 기본값은 false
+        this.reachTime = 0; // 기본값
 
         // 악기별 크기 설정
         int width, height;
@@ -49,12 +53,13 @@ public class Note extends JPanel {
         yPosition += speed;
         setLocation(xPosition, yPosition);
 
-        // 라인에 도달한지 확인 (yPosition 값은 필요에 따라 조정)
-        if (yPosition >= 650 && !lineReached) { // 라인에 도달했을 때
-            lineReached = true; // 라인 도달 상태 변경
+        // 라인에 도달한지 확인 (라인 Y 좌표는 고정된 LINE_Y 사용)
+        if (yPosition >= LINE_Y - 20 && yPosition <= LINE_Y + 20) { // 라인 범위 내
+            lineReached = true; // 라인 도달 상태 설정
+            reachTime = System.currentTimeMillis(); // 라인 도달 시간 기록
         }
 
-        if (yPosition > 720) {
+        if (yPosition > 720) { // 화면 아래로 벗어나면 비활성화
             active = false;
         }
     }
@@ -67,13 +72,18 @@ public class Note extends JPanel {
         return key;
     }
 
-    public int getTime() {  // 이 메소드 추가
+    public int getTime() {
         return time;
     }
 
     public boolean isLineReached() {
         return lineReached;
     }
+
+    public long getReachTime() {
+        return reachTime;
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -87,5 +97,4 @@ public class Note extends JPanel {
         g2d.setColor(backgroundColor); // 색상 적용
         g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 0, 0); // 둥근 모서리를 위한 라디우스 적용 (30은 라디우스 값)
     }
-
 }
