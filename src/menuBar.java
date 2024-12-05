@@ -24,6 +24,9 @@ public class menuBar extends JPanel {
     private ArrayList<Character> recordedKeys = new ArrayList<>(); // 키 저장
     private InstrumentPanel instrumentPanel;
 
+    private CardLayout cardLayout; // 화면 전환을 위한 CardLayout
+    private JPanel cardPanel; // CardLayout에 추가할 패널
+
     ImageIcon homeImg = new ImageIcon("src/img/home.png");
     ImageIcon pressHomeImg = new ImageIcon("src/img/pre-home.png");
     ImageIcon recordImg = new ImageIcon("src/img/record.png");
@@ -57,14 +60,34 @@ public class menuBar extends JPanel {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                instrumentPanel.requestFocusInWindow();
+                Window parentWindow = SwingUtilities.getWindowAncestor(menuBar.this);
+
+                if (parentWindow != null) {
+                    parentWindow.dispose();
+                }
+
+                String username = Login.getLoggedInUsername();
+                if (username != null) {
+                    new MainApp(username);
+                } else {
+                    new Login();
+                }
             }
         });
 
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                instrumentPanel.requestFocusInWindow();
+                // SavedRecordings JFrame을 새로 띄우는 코드
+                String username = Login.getLoggedInUsername();
+                if (username != null) {
+                    // 로그인된 사용자 이름을 넘겨주면서 SavedRecordings 화면을 띄움
+                    SavedRecordings savedRecordings = new SavedRecordings();
+                    savedRecordings.setVisible(true);
+                } else {
+                    // 로그인되지 않았다면 로그인 화면을 띄움
+                    new Login();
+                }
             }
         });
 
@@ -97,13 +120,18 @@ public class menuBar extends JPanel {
                         } else {
                             // 사용자 ID가 유효한 경우 녹음 데이터를 저장합니다.
                             String instrument = instrumentPanel.getInstrumentType();
-//                            boolean saveSuccess = DatabaseConnection.saveRecording(userId, recordedKeys, instrument);
-//
-//                            if (saveSuccess) {
-//                                JOptionPane.showMessageDialog(null, "녹음이 성공적으로 저장되었습니다.");
-//                            } else {
-//                                JOptionPane.showMessageDialog(null, "녹음 저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
-//                            }
+                            String name = JOptionPane.showInputDialog("제목을 입력하세요");
+                            if (name == null || name.trim().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "이름을 입력해야 저장할 수 있습니다.", "입력 필요", JOptionPane.WARNING_MESSAGE);
+                                return;
+                            }
+                            boolean saveSuccess = DatabaseConnection.saveRecording(userId, name, recordedKeys, instrument);
+
+                            if (saveSuccess) {
+                                JOptionPane.showMessageDialog(null, "녹음이 성공적으로 저장되었습니다.");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "녹음 저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                     }
                 }
