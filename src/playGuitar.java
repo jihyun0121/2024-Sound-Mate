@@ -26,7 +26,7 @@ public class playGuitar extends JFrame {
 
 
         // 컨트롤러 패널
-        src.menuBar menuBar = new menuBar();
+        src.menuBar menuBar = new menuBar(new Piano());
         this.add(menuBar, BorderLayout.NORTH);
 
 

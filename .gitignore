@@ -3,5 +3,8 @@
 /.idea/workspace.xml
 /out/
 /.idea/
+
+DatabaseConnection.java
+
 /src/db/
 /2024-Sound-Mate.iml
