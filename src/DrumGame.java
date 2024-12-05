@@ -85,7 +85,7 @@ public class DrumGame extends JFrame {
                     0, 'a',
                     172, 'e',
                     344, 'g',
-                    599, ' ',
+                    550, 'n',
                     768, 'u',
                     943, 'i',
                     1112, 'o'

@@ -51,17 +51,19 @@ public class Note extends JPanel {
 
     public void moveDown(int speed) {
         yPosition += speed;
-        setLocation(xPosition, yPosition);
 
-        // 라인에 도달한지 확인 (라인 Y 좌표는 고정된 LINE_Y 사용)
-        if (yPosition >= LINE_Y - 65 && yPosition <= LINE_Y + 50) { // 라인 범위 내
-            if (!lineReached){
-                lineReached = true; // 라인 도달 상태 설정
-                reachTime = System.currentTimeMillis(); // 라인 도달 시간 기록
+        // setBounds로 위치와 크기를 동시에 업데이트
+        setBounds(xPosition, yPosition, getWidth(), getHeight());
+
+        // 라인에 도달한지 확인
+        if (yPosition >= LINE_Y - 80 && yPosition <= LINE_Y + 70) {
+            if (!lineReached) {
+                lineReached = true;
+                reachTime = System.currentTimeMillis();
             }
         }
 
-        if (yPosition > 720) { // 화면 아래로 벗어나면 비활성화
+        if (yPosition > 550) { // 화면 아래로 벗어나면 비활성화
             active = false;
         }
     }

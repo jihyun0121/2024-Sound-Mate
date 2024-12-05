@@ -97,13 +97,13 @@ public class menuBar extends JPanel {
                         } else {
                             // 사용자 ID가 유효한 경우 녹음 데이터를 저장합니다.
                             String instrument = instrumentPanel.getInstrumentType();
-                            boolean saveSuccess = DatabaseConnection.saveRecording(userId, recordedKeys, instrument);
-
-                            if (saveSuccess) {
-                                JOptionPane.showMessageDialog(null, "녹음이 성공적으로 저장되었습니다.");
-                            } else {
-                                JOptionPane.showMessageDialog(null, "녹음 저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
-                            }
+//                            boolean saveSuccess = DatabaseConnection.saveRecording(userId, recordedKeys, instrument);
+//
+//                            if (saveSuccess) {
+//                                JOptionPane.showMessageDialog(null, "녹음이 성공적으로 저장되었습니다.");
+//                            } else {
+//                                JOptionPane.showMessageDialog(null, "녹음 저장 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+//                            }
                         }
                     }
                 }

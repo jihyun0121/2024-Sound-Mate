@@ -81,11 +81,18 @@ public class Track extends JPanel {
             if (!note.isActive()) {
                 combo = 0; // 콤보 초기화
                 gameBarPanel.setCombo(combo); // 콤보 업데이트
+
+                // 노트 삭제 및 UI 업데이트
                 this.remove(note);
+                revalidate();
+                repaint();
+
                 iterator.remove();
             }
         }
     }
+
+
 
     public void keyPressed(char key) {
         Iterator<Note> iterator = notes.iterator();
@@ -97,7 +104,7 @@ public class Track extends JPanel {
                 int yPos = note.getY();
 
                 // 라인 범위 조정 (위쪽과 아래쪽 확대)
-                if (yPos >= LINE_Y - 65 && yPos <= LINE_Y + 50) {
+                if (yPos >= LINE_Y - 80 && yPos <= LINE_Y + 70) {
                     long currentTime = System.currentTimeMillis();
                     long diff = Math.abs(currentTime - note.getReachTime());
 

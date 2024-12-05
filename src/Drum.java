@@ -52,7 +52,7 @@ public class Drum extends JPanel implements InstrumentPanel {
         tileImages = new HashMap<>();
 
         // 타일 생성 및 초기화
-        for (char key : new char[]{'a', 'e', 'g', ' ', 'u', 'i', 'o'}) {
+        for (char key : new char[]{'a', 'e', 'g', 'n', 'u', 'i', 'o'}) {
             // 각 키에 대한 이미지 세트 설정
             Map<String, String> images = new HashMap<>();
             images.put("default", "src/img/DB-" + key + ".png");    // 기본 이미지

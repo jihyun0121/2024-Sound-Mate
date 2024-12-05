@@ -83,7 +83,7 @@ public class PianoGame extends JFrame {
             // 피아노 키 매핑
             Map<Integer, Character> pianoKeys = Map.of(
                     0, 'a',
-                    128, 's',
+                    172, 's',
                     256, 'd',
                     384, 'f',
                     512, 'g',
