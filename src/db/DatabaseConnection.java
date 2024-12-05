@@ -6,8 +6,8 @@ public class DatabaseConnection {
     public static Connection getConnection() {
         Connection conn = null;
         String username="root"; // DBMS접속시 아이디
-        String password="392766"; // DBMS접속시 비밀번호
-        String url = "jdbc:mysql://localhost:3306/SoundMate";
+        String password="123456"; // DBMS접속시 비밀번호
+        String url = "jdbc:mysql://localhost:3306/SoundMateDB";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url, username,password);

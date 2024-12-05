@@ -9,24 +9,30 @@ public class MusicTrack {
         musics = new ArrayList<>();
         musics.add(new Music(
                 "Twinkle Twinkle Little Star",
-                "sound/sing/LittleStar.txt.wav",
+                "sound/sing/LittleStar.wav",
                 "easy",
                 "src/img/STAR.png",
-                "rhythm/LittleStar.txt.txt"
+                "src/rhythm/P-LittleStar.txt",
+                "src/rhythm/D-LittleStar.txt",
+                "src/rhythm/G-LittleStar.txt"
         ));
         musics.add(new Music(
                 "Yeosu Night Sea - Busker Busker",
-                "sound/sing/YeosuNightSea.txt.wav",
+                "sound/sing/YeosuNightSea.wav",
                 "normal",
                 "src/img/NIGHT.png",
-                "rhythm/YeosuNightSea.txt.txt"
+                "src/rhythm/P-YeosuNightSea.txt",
+                "src/rhythm/D-YeosuNightSea.txt",
+                "src/rhythm/G-YeosuNightSea.txt"
         ));
         musics.add(new Music(
                 "Welcome to the Show - Day6",
-                "sound/sing/WelcomeToTheShow.txt.wav",
+                "sound/sing/WelcomeToTheShow.wav",
                 "hard",
                 "src/img/WTTS.png",
-                "rhythm/WelcomeToTheShow.txt.txt"
+                "src/rhythm/P-WelcomeToTheShow.txt",
+                "src/rhythm/D-WelcomeToTheShow.txt",
+                "src/rhythm/G-WelcomeToTheShow.txt"
         ));
     }
 
