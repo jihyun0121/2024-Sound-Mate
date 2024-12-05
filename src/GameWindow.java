@@ -124,7 +124,7 @@ public class GameWindow extends JFrame {
                     344, 'g',
                     599, ' ',
                     768, 'u',
-                    943, 'k',
+                    943, 'i',
                     1112, 'o'
             );
             noteFilePath = selectedMusic.getDrumNoteFilePath();
@@ -136,8 +136,8 @@ public class GameWindow extends JFrame {
                     256, 'a',
                     384, 'd',
                     512, 'g',
-                    640, 'c',
-                    768, 'f',
+                    644, 'c',
+                    772, 'f',
                     896, 'b',
                     1024, 'k',
                     1152, '2'

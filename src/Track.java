@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Track extends JPanel {
-    private static final int LINE_Y = 200; // 라인의 Y 좌표 고정
+    private static final int LINE_Y = 265; // 라인의 Y 좌표 고정
     private List<Note> notes;
     private List<Note> pendingNotes;
     private long startTime;

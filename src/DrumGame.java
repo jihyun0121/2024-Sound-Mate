@@ -27,24 +27,29 @@ public class DrumGame extends JFrame {
         add(gameBarPanel, BorderLayout.NORTH); // 상단에 배치
 
         // 노트 트랙 패널
-        track = new Track(keyMapping, gameBarPanel); // 키 매핑을 Track에 전달
-        track.setBackground(Color.WHITE); // 배경 색 설정
-        add(track, BorderLayout.CENTER);
+        track = new Track(keyMapping, gameBarPanel);
+        track.setBackground(Color.WHITE);
+
+        // SheetMusicPanel을 생성하고, Drum 객체에 넘겨줌
+        SheetMusicPanel sheetMusicPanel = new SheetMusicPanel();
+        Drum drum = new Drum(sheetMusicPanel);  // SheetMusicPanel을 전달
 
         // 하단 악기 패널
-        Drum drum = new Drum();
         drum.setBackground(Color.WHITE);
 
-        // 최종 배치
-        add(track, BorderLayout.CENTER); // 전체 중앙에 Track 배치
-        add(drum, BorderLayout.SOUTH); // 악기 패널은 맨 아래
+        // 중앙에 트랙과 악기 패널을 포함하는 컨테이너 생성
+        JPanel trackAndInstrumentPanel = new JPanel(new BorderLayout());
+        trackAndInstrumentPanel.add(track, BorderLayout.CENTER); // 트랙을 중앙에 배치
+        trackAndInstrumentPanel.add(drum, BorderLayout.SOUTH);  // 악기를 아래에 배치
 
+        // 컨테이너를 중앙에 추가
+        add(trackAndInstrumentPanel, BorderLayout.CENTER);
 
         // 텍스트 파일에서 노트 데이터 로드
         List<Note> noteTimingData = BeatLoader.loadNotes(noteFilePath, keyMapping, "drum");
         track.generateNotes(noteTimingData);
 
-        // 게임 시작 전, 포커스 요청 (SwingUtilities로 래핑)
+        // 게임 시작 전, 포커스 요청
         SwingUtilities.invokeLater(() -> {
             drum.requestFocusInWindow(); // 포커스를 설정하여 키 입력을 받을 수 있도록 함
         });
@@ -82,7 +87,7 @@ public class DrumGame extends JFrame {
                     344, 'g',
                     599, ' ',
                     768, 'u',
-                    943, 'k',
+                    943, 'i',
                     1112, 'o'
             );
 

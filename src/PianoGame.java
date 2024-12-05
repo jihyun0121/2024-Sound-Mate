@@ -30,8 +30,11 @@ public class PianoGame extends JFrame {
         track = new Track(keyMapping, gameBarPanel);
         track.setBackground(Color.WHITE);
 
+        // SheetMusicPanel을 생성하고, Piano 객체에 넘겨줌
+        SheetMusicPanel sheetMusicPanel = new SheetMusicPanel();
+        Piano piano = new Piano(sheetMusicPanel);  // SheetMusicPanel을 전달
+
         // 하단 악기 패널
-        Piano piano = new Piano();
         piano.setBackground(Color.WHITE);
 
         // 중앙에 트랙과 악기 패널을 포함하는 컨테이너 생성

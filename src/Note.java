@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Note extends JPanel {
-    private static final int LINE_Y = 200; // 라인 위치 고정
+    private static final int LINE_Y = 280; // 라인 위치 고정
 
     private int xPosition; // 노트의 x 좌표
     private int yPosition; // 노트의 y 좌표
